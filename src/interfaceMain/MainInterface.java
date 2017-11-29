@@ -1,18 +1,21 @@
 
 package interfaceMain;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JList;
-import java.awt.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.JSplitPane;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.JProgressBar;
+import javax.swing.JLabel;
 
 public class MainInterface {
 
@@ -47,33 +50,76 @@ public class MainInterface {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 900, 800);
+		frame.setBounds(100, 100, 800, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		frame.getContentPane().setLayout(null);
 
-		JButton bAvaliar = new JButton("Avaliar Qualidade");
-		bAvaliar.setBounds(464, 6, 161, 29);
-		frame.getContentPane().add(bAvaliar);
+		JProgressBar progressBarFNM = new JProgressBar();
+		progressBarFNM.setBounds(514, 539, 146, 20);
+		frame.getContentPane().add(progressBarFNM);
 
-		JButton bGravar = new JButton("Gravar Configuração");
-		bGravar.setBounds(464, 47, 161, 29);
-		frame.getContentPane().add(bGravar);
+		JProgressBar progressBarFPM = new JProgressBar();
+		progressBarFPM.setBounds(514, 559, 146, 20);
+		frame.getContentPane().add(progressBarFPM);
 
-		JList list = new JList();
-		list.setBounds(616, 370, 161, -219);
-		frame.getContentPane().add(list);
-		
-		for(String s : rules) {
-			System.out.println(s);
-		}
+		JLabel lblFnm = new JLabel("FN");
+		lblFnm.setBounds(490, 539, 61, 20);
+		frame.getContentPane().add(lblFnm);
+
+		JLabel lblFpm = new JLabel("FP");
+		lblFpm.setBounds(490, 559, 61, 20);
+		frame.getContentPane().add(lblFpm);
+
+		JButton btnGravar = new JButton("Gravar");
+		btnGravar.setBounds(413, 591, 117, 29);
+		frame.getContentPane().add(btnGravar);
+
+		JButton btnAvaliar = new JButton("Avaliar");
+		btnAvaliar.setBounds(524, 591, 117, 29);
+		frame.getContentPane().add(btnAvaliar);
+
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.setBounds(636, 591, 117, 29);
+		frame.getContentPane().add(btnEditar);
+
+		JProgressBar progressBarFNA = new JProgressBar();
+		progressBarFNA.setBounds(142, 539, 146, 20);
+		frame.getContentPane().add(progressBarFNA);
+
+		JProgressBar progressBarFPA = new JProgressBar();
+		progressBarFPA.setBounds(142, 559, 146, 20);
+		frame.getContentPane().add(progressBarFPA);
+
+		JLabel lblFna = new JLabel("FN");
+		lblFna.setBounds(114, 539, 61, 20);
+		frame.getContentPane().add(lblFna);
+
+		JLabel lblFpa = new JLabel("FP");
+		lblFpa.setBounds(114, 559, 61, 20);
+		frame.getContentPane().add(lblFpa);
+
+		lerRules();
 	}
 
+	/**
+	 * Ler ficheiro rules.cf
+	 */
+	
 	public void lerRules() {
-		Scanner scan = new Scanner("./rules.cf");
-		while (scan.hasNextLine()) {
-			rules.add(scan.nextLine());
+		Scanner scan;
+		try {
+			scan = new Scanner(new File("rules.cf"));
+
+			System.out.println(scan.nextLine());
+			while (scan.hasNextLine()) {
+				rules.add(scan.nextLine());
+			}
+			scan.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		scan.close();
 
 	}
 }
