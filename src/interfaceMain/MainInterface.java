@@ -16,11 +16,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.JProgressBar;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 public class MainInterface {
 
 	private JFrame frame;
 	private ArrayList<String> rules = new ArrayList<String>();
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -98,20 +100,30 @@ public class MainInterface {
 		JLabel lblFpa = new JLabel("FP");
 		lblFpa.setBounds(114, 559, 61, 20);
 		frame.getContentPane().add(lblFpa);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(413, 82, 345, 445);
+		frame.getContentPane().add(scrollPane);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(32, 82, 345, 445);
+		frame.getContentPane().add(scrollPane_1);
+		
+		table = new JTable();
+		scrollPane_1.setViewportView(table);
 
-		lerRules();
+		lerRules("./rules.cf");
+		
 	}
 
 	/**
 	 * Ler ficheiro rules.cf
 	 */
 	
-	public void lerRules() {
+	public void lerRules(String file) {
 		Scanner scan;
 		try {
-			scan = new Scanner(new File("rules.cf"));
-
-			System.out.println(scan.nextLine());
+			scan = new Scanner(new File(file));
 			while (scan.hasNextLine()) {
 				rules.add(scan.nextLine());
 			}
