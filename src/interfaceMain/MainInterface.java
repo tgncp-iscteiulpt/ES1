@@ -26,6 +26,7 @@ public class MainInterface {
 	private ArrayList<String> spam = new ArrayList<String>();
 	private JTable tableAut;
 	private JTable tableMan;
+	private DefaultTableModel modelo = new DefaultTableModel();
 
 	/**
 	 * Launch the application.
@@ -121,14 +122,6 @@ public class MainInterface {
 		
 		
 		
-		tableMan.setModel(new DefaultTableModel(
-				new Object[][] { {"Ola", 7 },{} }, new String[] { "Rules", "Pesos" }) {
-			Class[] columnTypes = new Class[] { String.class, Double.class };
-
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
 		scrollPaneMan.setViewportView(tableMan);
 
 		// Automático
@@ -180,12 +173,42 @@ public class MainInterface {
 				// TODO Auto-generated method stub
 				if (checkBoxRules.isSelected()) {
 					lerFicheiro("./rules.cf", rules);
+					modelo.addColumn("Rules");
+					modelo.addColumn("Pesos");
+					if(rules.isEmpty()) {
+						modelo.addRow(new String[]{"Sem informações", "Sem informações"});
+					} else {
+						for(int i=0; i<rules.size();i++) {
+							modelo.addRow(new String[]{rules.get(i), String.valueOf(0.0)});
+						}
+					}
+					tableMan.setModel(modelo);
 				}
 				if (checkBoxHam.isSelected()) {
 					lerFicheiro("./ham.log", ham);
+//					modelo.addColumn("Messages");
+//					modelo.addColumn("Pesos");
+//					if(rules.isEmpty()) {
+//						modelo.addRow(new String[]{"Sem informações", "Sem informações"});
+//					} else {
+//						for(int i=0; i<rules.size();i++) {
+//							modelo.addRow(new String[]{rules.get(i), String.valueOf(0.0)});
+//						}
+//					}
+//					tableMan.setModel(modelo);
 				}
 				if (checkBoxSpam.isSelected()) {
 					lerFicheiro("./spam.log", spam);
+//					modelo.addColumn("Messages");
+//					modelo.addColumn("Pesos");
+//					if(rules.isEmpty()) {
+//						modelo.addRow(new String[]{"Sem informações", "Sem informações"});
+//					} else {
+//						for(int i=0; i<rules.size();i++) {
+//							modelo.addRow(new String[]{rules.get(i), String.valueOf(0.0)});
+//						}
+//					}
+//					tableMan.setModel(modelo);
 				}
 			}
 		});
