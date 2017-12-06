@@ -1,28 +1,31 @@
 
 package interfaceMain;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.JProgressBar;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 
 public class MainInterface {
 
 	private JFrame frame;
 	private ArrayList<String> rules = new ArrayList<String>();
-	private JTable table;
+	private ArrayList<String> ham = new ArrayList<String>();
+	private ArrayList<String> spam = new ArrayList<String>();
+	private JTable tableAut;
+	private JTable tableMan;
 
 	/**
 	 * Launch the application.
@@ -54,8 +57,10 @@ public class MainInterface {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		frame.getContentPane().setLayout(null);
+
+		// Manual
 
 		JProgressBar progressBarFNM = new JProgressBar();
 		progressBarFNM.setBounds(514, 539, 146, 20);
@@ -65,25 +70,68 @@ public class MainInterface {
 		progressBarFPM.setBounds(514, 559, 146, 20);
 		frame.getContentPane().add(progressBarFPM);
 
-		JLabel lblFnm = new JLabel("FN");
-		lblFnm.setBounds(490, 539, 61, 20);
-		frame.getContentPane().add(lblFnm);
+		JLabel labelFnm = new JLabel("FN");
+		labelFnm.setBounds(490, 539, 61, 20);
+		frame.getContentPane().add(labelFnm);
 
-		JLabel lblFpm = new JLabel("FP");
-		lblFpm.setBounds(490, 559, 61, 20);
-		frame.getContentPane().add(lblFpm);
+		JLabel labelFpm = new JLabel("FP");
+		labelFpm.setBounds(490, 559, 61, 20);
+		frame.getContentPane().add(labelFpm);
 
 		JButton btnGravar = new JButton("Gravar");
 		btnGravar.setBounds(413, 591, 117, 29);
 		frame.getContentPane().add(btnGravar);
+		btnGravar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 		JButton btnAvaliar = new JButton("Avaliar");
 		btnAvaliar.setBounds(524, 591, 117, 29);
 		frame.getContentPane().add(btnAvaliar);
+		btnAvaliar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setBounds(636, 591, 117, 29);
 		frame.getContentPane().add(btnEditar);
+		btnGravar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				tableMan.setEditingColumn(1);
+			}
+		});
+
+		JScrollPane scrollPaneMan = new JScrollPane();
+		scrollPaneMan.setBounds(413, 82, 345, 445);
+		frame.getContentPane().add(scrollPaneMan);
+		tableMan = new JTable();
+		
+		
+		
+		tableMan.setModel(new DefaultTableModel(
+				new Object[][] { {"Ola", 7 },{} }, new String[] { "Rules", "Pesos" }) {
+			Class[] columnTypes = new Class[] { String.class, Double.class };
+
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		scrollPaneMan.setViewportView(tableMan);
+
+		// Automático
 
 		JProgressBar progressBarFNA = new JProgressBar();
 		progressBarFNA.setBounds(142, 539, 146, 20);
@@ -93,45 +141,67 @@ public class MainInterface {
 		progressBarFPA.setBounds(142, 559, 146, 20);
 		frame.getContentPane().add(progressBarFPA);
 
-		JLabel lblFna = new JLabel("FN");
-		lblFna.setBounds(114, 539, 61, 20);
-		frame.getContentPane().add(lblFna);
+		JLabel labelFna = new JLabel("FN");
+		labelFna.setBounds(114, 539, 61, 20);
+		frame.getContentPane().add(labelFna);
 
-		JLabel lblFpa = new JLabel("FP");
-		lblFpa.setBounds(114, 559, 61, 20);
-		frame.getContentPane().add(lblFpa);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(413, 82, 345, 445);
-		frame.getContentPane().add(scrollPane);
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(32, 82, 345, 445);
-		frame.getContentPane().add(scrollPane_1);
-		
-		table = new JTable();
-		scrollPane_1.setViewportView(table);
+		JLabel labelFpa = new JLabel("FP");
+		labelFpa.setBounds(114, 559, 61, 20);
+		frame.getContentPane().add(labelFpa);
 
-		lerRules("./rules.cf");
-		
+		JScrollPane scrollPaneAut = new JScrollPane();
+		scrollPaneAut.setBounds(32, 82, 345, 445);
+		frame.getContentPane().add(scrollPaneAut);
+
+		tableAut = new JTable();
+		scrollPaneAut.setViewportView(tableAut);
+
+		// Check Box
+
+		JCheckBox checkBoxRules = new JCheckBox("Rules.cf");
+		checkBoxRules.setBounds(32, 30, 82, 23);
+		frame.getContentPane().add(checkBoxRules);
+
+		JCheckBox checkBoxHam = new JCheckBox("Ham.log");
+		checkBoxHam.setBounds(114, 30, 85, 23);
+		frame.getContentPane().add(checkBoxHam);
+
+		JCheckBox checkBoxSpam = new JCheckBox("Spam.log");
+		checkBoxSpam.setBounds(200, 30, 99, 23);
+		frame.getContentPane().add(checkBoxSpam);
+
+		JButton btnStart = new JButton("Start");
+		btnStart.setBounds(303, 29, 117, 29);
+		frame.getContentPane().add(btnStart);
+		btnStart.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (checkBoxRules.isSelected()) {
+					lerFicheiro("./rules.cf", rules);
+				}
+				if (checkBoxHam.isSelected()) {
+					lerFicheiro("./ham.log", ham);
+				}
+				if (checkBoxSpam.isSelected()) {
+					lerFicheiro("./spam.log", spam);
+				}
+			}
+		});
 	}
 
-	/**
-	 * Ler ficheiro rules.cf
-	 */
-	
-	public void lerRules(String file) {
+	public void lerFicheiro(String file, ArrayList<String> list) {
 		Scanner scan;
 		try {
 			scan = new Scanner(new File(file));
 			while (scan.hasNextLine()) {
-				rules.add(scan.nextLine());
+				list.add(scan.nextLine());
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 }
