@@ -99,6 +99,8 @@ public class MainInterface {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				lerFicheiro("ham.log", ham);
+				//for()
 
 			}
 		});
