@@ -221,6 +221,10 @@ public class MainInterface {
 			}
 		});
 	}
+	
+	public void test() {
+		
+	}
 
 	public void avaliarEmail(Email email) {
 		if (email.getPesoMail() < 5) {
