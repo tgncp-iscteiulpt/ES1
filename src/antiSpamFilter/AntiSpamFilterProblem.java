@@ -13,7 +13,7 @@ public class AntiSpamFilterProblem extends AbstractDoubleProblem {
 	    this(10);
 	  }
 
-	  public AntiSpamFilterProblem(Integer numberOfVariables) {
+	  public AntiSpamFilterProblem(Integer numberOfVariables) { //vao ser as 335 regras
 	    setNumberOfVariables(numberOfVariables);
 	    setNumberOfObjectives(2);
 	    setName("AntiSpamFilterProblem");
@@ -43,6 +43,8 @@ public class AntiSpamFilterProblem extends AbstractDoubleProblem {
 		  fx[0] += Math.abs(x[0]); // Example for testing
 	    }
 	    
+	    //meter calculo fn
+	    //meter calculo fp
 	    fx[1] = 0.0;
 	    for (int var = 0; var < solution.getNumberOfVariables(); var++) {
 	    	fx[1] += Math.abs(x[1]); // Example for testing

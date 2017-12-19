@@ -1,4 +1,3 @@
-
 package interfaceMain;
 
 import java.awt.EventQueue;
@@ -21,12 +20,15 @@ import javax.swing.table.DefaultTableModel;
 public class MainInterface {
 
 	private JFrame frame;
-	private ArrayList<String> rules = new ArrayList<String>();
-	private ArrayList<String> ham = new ArrayList<String>();
-	private ArrayList<String> spam = new ArrayList<String>();
+	private ArrayList<Rule> rulesList = new ArrayList<Rule>();
+	private ArrayList<Email> hamList = new ArrayList<Email>();
+	private ArrayList<Email> spamList = new ArrayList<Email>();
 	private JTable tableAut;
 	private JTable tableMan;
 	private DefaultTableModel modelo = new DefaultTableModel();
+	private int fn = 0;
+	private int fp = 0;
+	private int totalMessages = 0;
 
 	/**
 	 * Launch the application.
@@ -66,6 +68,7 @@ public class MainInterface {
 		JProgressBar progressBarFNM = new JProgressBar();
 		progressBarFNM.setBounds(514, 539, 146, 20);
 		frame.getContentPane().add(progressBarFNM);
+		// progressBarFNM.
 
 		JProgressBar progressBarFPM = new JProgressBar();
 		progressBarFPM.setBounds(514, 559, 146, 20);
@@ -88,6 +91,7 @@ public class MainInterface {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
+				// gravarFicheiro(file);
 			}
 		});
 
@@ -99,8 +103,12 @@ public class MainInterface {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				lerFicheiro("ham.log", ham);
-				//for()
+				lerFicheiro("./ham.log");
+				lerFicheiro(".spam.log");
+				for(Email email : hamList) {
+					email.getPesoMail();
+				}
+				
 
 			}
 		});
@@ -108,8 +116,7 @@ public class MainInterface {
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setBounds(636, 591, 117, 29);
 		frame.getContentPane().add(btnEditar);
-		btnGravar.addActionListener(new ActionListener() {
-
+		btnEditar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -121,9 +128,7 @@ public class MainInterface {
 		scrollPaneMan.setBounds(413, 82, 345, 445);
 		frame.getContentPane().add(scrollPaneMan);
 		tableMan = new JTable();
-		
-		
-		
+
 		scrollPaneMan.setViewportView(tableMan);
 
 		// Automático
@@ -174,54 +179,84 @@ public class MainInterface {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if (checkBoxRules.isSelected()) {
-					lerFicheiro("./rules.cf", rules);
+					lerFicheiro("./rules.cf");
 					modelo.addColumn("Rules");
 					modelo.addColumn("Pesos");
-					if(rules.isEmpty()) {
-						modelo.addRow(new String[]{"Sem informações", "Sem informações"});
+					if (rulesList.isEmpty()) {
+						modelo.addRow(new String[] { "Sem informações", "Sem informações" });
 					} else {
-						for(int i=0; i<rules.size();i++) {
-							modelo.addRow(new String[]{rules.get(i), String.valueOf(0.0)});
+						for (int i = 0; i < rulesList.size(); i++) {
+							modelo.addRow(new String[] { rulesList.get(i).getName(), String.valueOf(0.0) });
+
 						}
 					}
 					tableMan.setModel(modelo);
 				}
 				if (checkBoxHam.isSelected()) {
-					lerFicheiro("./ham.log", ham);
-//					modelo.addColumn("Messages");
-//					modelo.addColumn("Pesos");
-//					if(rules.isEmpty()) {
-//						modelo.addRow(new String[]{"Sem informações", "Sem informações"});
-//					} else {
-//						for(int i=0; i<rules.size();i++) {
-//							modelo.addRow(new String[]{rules.get(i), String.valueOf(0.0)});
-//						}
-//					}
-//					tableMan.setModel(modelo);
+					lerFicheiro("./ham.log");
+					modelo.addColumn("Messages");
+					modelo.addColumn("Pesos");
+					if (rulesList.isEmpty()) {
+						modelo.addRow(new String[] { "Sem informações", "Sem informações" });
+					} else {
+						for (int i = 0; i < rulesList.size(); i++) {
+							modelo.addRow(new String[] { rulesList.get(i).getName(), String.valueOf(0.0) });
+						}
+					}
+					tableMan.setModel(modelo);
 				}
 				if (checkBoxSpam.isSelected()) {
-					lerFicheiro("./spam.log", spam);
-//					modelo.addColumn("Messages");
-//					modelo.addColumn("Pesos");
-//					if(rules.isEmpty()) {
-//						modelo.addRow(new String[]{"Sem informações", "Sem informações"});
-//					} else {
-//						for(int i=0; i<rules.size();i++) {
-//							modelo.addRow(new String[]{rules.get(i), String.valueOf(0.0)});
-//						}
-//					}
-//					tableMan.setModel(modelo);
+					lerFicheiro("./spam.log");
+					modelo.addColumn("Messages");
+					modelo.addColumn("Pesos");
+					if (rulesList.isEmpty()) {
+						modelo.addRow(new String[] { "Sem informações", "Sem informações" });
+					} else {
+						for (int i = 0; i < rulesList.size(); i++) {
+							modelo.addRow(new String[] { rulesList.get(i).getName(), String.valueOf(0.0) });
+						}
+					}
+					tableMan.setModel(modelo);
 				}
 			}
 		});
 	}
 
-	public void lerFicheiro(String file, ArrayList<String> list) {
-		Scanner scan;
+	public void avaliarEmail(Email email) {
+		if (email.getPesoMail() < 5) {
+			fn++;
+		} else {
+			fp++;
+		}
+	}
+
+	public void gravarFicheiro(String file) {
+
+	}
+
+	public void lerFicheiro(String file) {
 		try {
-			scan = new Scanner(new File(file));
-			while (scan.hasNextLine()) {
-				list.add(scan.nextLine());
+			Scanner scan = new Scanner(new File(file));
+			if (file.equals("./rules.cf")) {
+				while (scan.hasNextLine()) {
+					Rule rule = new Rule(scan.nextLine(), 0.0);
+					rulesList.add(rule);
+					// rulesList.add(scan.nextLine());
+				}
+			} else if (file.equals("./ham.log")) {
+				while (scan.hasNextLine()) {
+					ArrayList<Rule> emailRules = new ArrayList<Rule>();
+					Email email = new Email(scan.nextLine(), emailRules);
+					hamList.add(email);
+					// hamList.add(scan.nextLine());
+				}
+			} else if (file.equals("./spam.log")) {
+				while (scan.hasNextLine()) {
+					ArrayList<Rule> emailRules = new ArrayList<Rule>();
+					Email email = new Email(scan.nextLine(), emailRules);
+					hamList.add(email);
+					// spamList.add(scan.nextLine());
+				}
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
@@ -229,4 +264,17 @@ public class MainInterface {
 			e.printStackTrace();
 		}
 	}
+
+	public int getFn() {
+		return fn;
+	}
+
+	public int getFp() {
+		return fp;
+	}
+
+	public int getTotalMessages() {
+		return totalMessages;
+	}
+
 }
