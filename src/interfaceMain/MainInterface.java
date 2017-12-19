@@ -104,12 +104,27 @@ public class MainInterface {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				lerFicheiro("./ham.log");
-				lerFicheiro(".spam.log");
+				lerFicheiro("./spam.log");
 				for(Email email : hamList) {
-					email.getPesoMail();
+					double peso = email.getPesoMail();
+					if(peso < 5) {
+						fn++;
+						progressBarFPM.setMinimum(0);
+						progressBarFPM.setMaximum(hamList.size());
+						progressBarFNM.setStringPainted(true);
+					}
 				}
-				
-
+				for(Email email : spamList) {
+					double peso = email.getPesoMail();
+					if(peso > 5) {
+						fp++;
+						progressBarFPM.setMinimum(0);
+						progressBarFPM.setMaximum(spamList.size());
+						
+						progressBarFPM.setStringPainted(true);
+						
+					}
+				}
 			}
 		});
 
@@ -221,10 +236,7 @@ public class MainInterface {
 			}
 		});
 	}
-	
-	public void test() {
-		
-	}
+
 
 	public void avaliarEmail(Email email) {
 		if (email.getPesoMail() < 5) {
@@ -249,15 +261,25 @@ public class MainInterface {
 				}
 			} else if (file.equals("./ham.log")) {
 				while (scan.hasNextLine()) {
+					String name = scan.next();
 					ArrayList<Rule> emailRules = new ArrayList<Rule>();
-					Email email = new Email(scan.nextLine(), emailRules);
+					while(scan.hasNext()) {
+						Rule rule = new Rule(scan.next(), 0.0);
+						emailRules.add(rule);
+					}
+					Email email = new Email(name, emailRules);
 					hamList.add(email);
 					// hamList.add(scan.nextLine());
 				}
 			} else if (file.equals("./spam.log")) {
 				while (scan.hasNextLine()) {
+					String name = scan.next();
 					ArrayList<Rule> emailRules = new ArrayList<Rule>();
-					Email email = new Email(scan.nextLine(), emailRules);
+					while(scan.hasNext()) {
+						Rule rule = new Rule(scan.next(), 0.0);
+						emailRules.add(rule);
+					}
+					Email email = new Email(scan.next(), emailRules);
 					hamList.add(email);
 					// spamList.add(scan.nextLine());
 				}
