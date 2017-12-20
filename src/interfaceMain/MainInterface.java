@@ -100,6 +100,8 @@ public class MainInterface {
 		
 		
 
+		
+		
 		JButton btnAvaliar = new JButton("Avaliar");
 		btnAvaliar.setBounds(524, 591, 117, 29);
 		frame.getContentPane().add(btnAvaliar);
