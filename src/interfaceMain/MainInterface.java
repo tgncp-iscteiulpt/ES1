@@ -97,6 +97,8 @@ public class MainInterface {
 				// gravarFicheiro(file);
 			}
 		});
+		
+		
 
 		JButton btnAvaliar = new JButton("Avaliar");
 		btnAvaliar.setBounds(524, 591, 117, 29);
