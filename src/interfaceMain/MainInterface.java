@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -29,6 +30,8 @@ public class MainInterface {
 	private int fn = 0;
 	private int fp = 0;
 	private int totalMessages = 0;
+	private int contador = 0;
+	
 
 	/**
 	 * Launch the application.
@@ -105,24 +108,25 @@ public class MainInterface {
 				// TODO Auto-generated method stub
 				lerFicheiro("./ham.log");
 				lerFicheiro("./spam.log");
-				for(Email email : hamList) {
+				gerarValores();
+				progressBarFNM.setMinimum(0);
+				progressBarFPM.setMinimum(0);
+				for (Email email : hamList) {
 					double peso = email.getPesoMail();
-					if(peso < 5) {
+					progressBarFNM.setMaximum(hamList.size());
+					if (peso < 5) {
 						fn++;
-						progressBarFPM.setMinimum(0);
-						progressBarFPM.setMaximum(hamList.size());
 						progressBarFNM.setStringPainted(true);
+						progressBarFNM.setValue(fn);
 					}
 				}
-				for(Email email : spamList) {
+				for (Email email : spamList) {
 					double peso = email.getPesoMail();
-					if(peso > 5) {
+					progressBarFPM.setMaximum(spamList.size());
+					if (peso > 5) {
 						fp++;
-						progressBarFPM.setMinimum(0);
-						progressBarFPM.setMaximum(spamList.size());
-						
 						progressBarFPM.setStringPainted(true);
-						
+						progressBarFPM.setValue(fp);
 					}
 				}
 			}
@@ -237,7 +241,6 @@ public class MainInterface {
 		});
 	}
 
-
 	public void avaliarEmail(Email email) {
 		if (email.getPesoMail() < 5) {
 			fn++;
@@ -246,15 +249,12 @@ public class MainInterface {
 		}
 	}
 
-	public void gravarFicheiro(String file) {
-
-	}
-
 	public void lerFicheiro(String file) {
 		try {
 			Scanner scan = new Scanner(new File(file));
 			if (file.equals("./rules.cf")) {
 				while (scan.hasNextLine()) {
+					contador++;
 					Rule rule = new Rule(scan.nextLine(), 0.0);
 					rulesList.add(rule);
 					// rulesList.add(scan.nextLine());
@@ -263,7 +263,8 @@ public class MainInterface {
 				while (scan.hasNextLine()) {
 					String name = scan.next();
 					ArrayList<Rule> emailRules = new ArrayList<Rule>();
-					while(scan.hasNext()) {
+					scan.useDelimiter("	");
+					while (scan.hasNext()) {
 						Rule rule = new Rule(scan.next(), 0.0);
 						emailRules.add(rule);
 					}
@@ -275,11 +276,12 @@ public class MainInterface {
 				while (scan.hasNextLine()) {
 					String name = scan.next();
 					ArrayList<Rule> emailRules = new ArrayList<Rule>();
-					while(scan.hasNext()) {
+					scan.useDelimiter("	");
+					while (scan.hasNext()) {
 						Rule rule = new Rule(scan.next(), 0.0);
 						emailRules.add(rule);
 					}
-					Email email = new Email(scan.next(), emailRules);
+					Email email = new Email(name, emailRules);
 					hamList.add(email);
 					// spamList.add(scan.nextLine());
 				}
@@ -290,6 +292,18 @@ public class MainInterface {
 			e.printStackTrace();
 		}
 	}
+	
+	public void gerarValores() {
+		for(int i=0; i < contador; i++) {
+			Random random = new Random();
+			double n = -5.0 + (6) * random.nextDouble();
+			rulesList.get(i).setPeso(n);
+			// FALTA AQUI FUNÇÃO PARA ADICIONAR O N AO FICHEIRO RULES
+			System.out.println(rulesList.get(i).getName() + " " + rulesList.get(i).getPeso());
+		}
+	}
+	
+	
 
 	public int getFn() {
 		return fn;
