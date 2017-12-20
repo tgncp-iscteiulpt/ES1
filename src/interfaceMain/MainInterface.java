@@ -31,7 +31,8 @@ public class MainInterface {
 	private int fp = 0;
 	private int totalMessages = 0;
 	private int contador = 0;
-	
+	private JButton btnAvaliar;
+	private JButton btnStart;
 
 	/**
 	 * Launch the application.
@@ -102,7 +103,7 @@ public class MainInterface {
 
 		
 		
-		JButton btnAvaliar = new JButton("Avaliar");
+		btnAvaliar = new JButton("Avaliar");
 		btnAvaliar.setBounds(524, 591, 117, 29);
 		frame.getContentPane().add(btnAvaliar);
 		btnAvaliar.addActionListener(new ActionListener() {
@@ -112,7 +113,6 @@ public class MainInterface {
 				// TODO Auto-generated method stub
 				lerFicheiro("./ham.log");
 				lerFicheiro("./spam.log");
-				gerarValores();
 				progressBarFNM.setMinimum(0);
 				progressBarFPM.setMinimum(0);
 				for (Email email : hamList) {
@@ -193,7 +193,7 @@ public class MainInterface {
 		checkBoxSpam.setBounds(200, 30, 99, 23);
 		frame.getContentPane().add(checkBoxSpam);
 
-		JButton btnStart = new JButton("Start");
+		btnStart = new JButton("Start");
 		btnStart.setBounds(303, 29, 117, 29);
 		frame.getContentPane().add(btnStart);
 		btnStart.addActionListener(new ActionListener() {
@@ -203,14 +203,14 @@ public class MainInterface {
 				// TODO Auto-generated method stub
 				if (checkBoxRules.isSelected()) {
 					lerFicheiro("./rules.cf");
+					gerarValores();
 					modelo.addColumn("Rules");
 					modelo.addColumn("Pesos");
 					if (rulesList.isEmpty()) {
 						modelo.addRow(new String[] { "Sem informações", "Sem informações" });
 					} else {
 						for (int i = 0; i < rulesList.size(); i++) {
-							modelo.addRow(new String[] { rulesList.get(i).getName(), String.valueOf(0.0) });
-
+							modelo.addRow(new String[] {rulesList.get(i).getName(), String.valueOf(rulesList.get(i).getPeso())});
 						}
 					}
 					tableMan.setModel(modelo);
@@ -261,20 +261,22 @@ public class MainInterface {
 					contador++;
 					Rule rule = new Rule(scan.nextLine(), 0.0);
 					rulesList.add(rule);
-					// rulesList.add(scan.nextLine());
 				}
 			} else if (file.equals("./ham.log")) {
 				while (scan.hasNextLine()) {
 					String name = scan.next();
+					System.out.println(name);
 					ArrayList<Rule> emailRules = new ArrayList<Rule>();
 					scan.useDelimiter("	");
 					while (scan.hasNext()) {
 						Rule rule = new Rule(scan.next(), 0.0);
 						emailRules.add(rule);
 					}
+					for(Rule rule : emailRules) {
+						System.out.println(rule.getName());
+					}
 					Email email = new Email(name, emailRules);
 					hamList.add(email);
-					// hamList.add(scan.nextLine());
 				}
 			} else if (file.equals("./spam.log")) {
 				while (scan.hasNextLine()) {
@@ -287,7 +289,6 @@ public class MainInterface {
 					}
 					Email email = new Email(name, emailRules);
 					hamList.add(email);
-					// spamList.add(scan.nextLine());
 				}
 			}
 			scan.close();
@@ -303,7 +304,7 @@ public class MainInterface {
 			double n = -5.0 + (6) * random.nextDouble();
 			rulesList.get(i).setPeso(n);
 			// FALTA AQUI FUNÇÃO PARA ADICIONAR O N AO FICHEIRO RULES
-			System.out.println(rulesList.get(i).getName() + " " + rulesList.get(i).getPeso());
+			
 		}
 	}
 	

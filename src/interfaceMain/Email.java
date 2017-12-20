@@ -24,7 +24,7 @@ public class Email {
 	public double getPesoMail() {
 		double pesoMail = 0;
 		for(Rule rule : rulesList) {
-			pesoMail += rule.getPeso();
+			pesoMail = pesoMail + rule.getPeso();
 		}
 		return pesoMail;
 	}
