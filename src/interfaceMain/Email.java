@@ -7,14 +7,19 @@ public class Email {
 	private String name;
 	private ArrayList<Rule> rulesList;
 
-	public Email(String name, ArrayList<Rule> rulesList) {
+	public Email(String name) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
-		this.rulesList = rulesList;
+		rulesList = new ArrayList<Rule>();
 	}
 
 	public String getName() {
 		return name;
+	}
+	
+	public void addRule (String ruleName){
+		Rule rule = new Rule(ruleName, 0.0);
+		rulesList.add(rule);
 	}
 	
 	public ArrayList<Rule> getRulesList() {
