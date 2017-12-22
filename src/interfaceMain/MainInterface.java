@@ -132,9 +132,9 @@ public class MainInterface {
                                 progressBarFNM.setMaximum(695);
                                 progressBarFPM.setMaximum(239);
                                 if (checkBoxHam.isSelected()) {
+                                        fn= 0;
                                         for (Email email : hamList) {
                                                 double peso = avaliarEmail(email);
-                                                System.out.println(peso);
                                                 if (peso < 5) {
                                                         fn++;
                                                         progressBarFNM.setValue(fn);
@@ -143,6 +143,7 @@ public class MainInterface {
                                                 }
                                         }
                                 }
+                                System.out.println(fn);
                                 if (checkBoxSpam.isSelected()) {
                                         for (Email email : spamList) {
                                                 double peso = avaliarEmail(email);
@@ -331,7 +332,7 @@ public class MainInterface {
                                         // System.out.println("Entrou aqui (Regras)- " + ruleName);
                                 }
                                 System.out.println("Nome email:" + emailName);
-                                hamList.add(email);
+                                spamList.add(email);
                         }
                 } catch (FileNotFoundException e) {
                         // TODO Auto-generated catch block
@@ -375,8 +376,8 @@ public class MainInterface {
                         String b = (String) String.valueOf(table.getValueAt(r, 1));
 
                         Rule a = new Rule(s, Double.parseDouble(b));
-                        System.out.println("Nome " + a.getName());
-                        System.out.println("Valor " + a.getPeso());
+                        //System.out.println("Nome " + a.getName());
+                        //System.out.println("Valor " + a.getPeso());
                         list.add(a);
                         // gravar(s, b, "./gravarPesos.txt");
 
