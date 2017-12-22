@@ -31,6 +31,7 @@ public class MainInterface {
 
         private JFrame frame;
         private ArrayList<Rule> rulesList = new ArrayList<Rule>();
+        private ArrayList<Rule> rulesList1 = new ArrayList<Rule>(); 
         private ArrayList<Email> hamList = new ArrayList<Email>();
         private ArrayList<Email> spamList = new ArrayList<Email>();
         private JTable tableAut;
@@ -127,8 +128,12 @@ public class MainInterface {
                                 lerSpam("./spam.log");
                                 progressBarFNM.setMinimum(0);
                                 progressBarFPM.setMinimum(0);
+                                int fn = 0;
+                                
                                 for (Email email : hamList) {
+                                	
                                         double peso = email.getPesoMail();
+                                        System.out.println(peso);
                                         progressBarFNM.setMaximum(hamList.size());
                                         if (peso < 5) {
                                                 fn++;
@@ -136,7 +141,8 @@ public class MainInterface {
                                                 progressBarFNM.setStringPainted(true);
 
                                         }
-                                }
+                                }  
+                                
                                 for (Email email : spamList) {
                                         double peso = email.getPesoMail();
                                         progressBarFPM.setMaximum(spamList.size());
@@ -208,25 +214,6 @@ public class MainInterface {
                 checkBoxSpam.setBounds(200, 30, 99, 23);
                 frame.getContentPane().add(checkBoxSpam);
 
-//                tableMan.addContainerListener(new ContainerListener() {
-//					
-//					@Override
-//					public void componentRemoved(ContainerEvent e) {
-//						try {
-//							savePeso(modelo, rulesList);
-//						} catch (IOException e1) {
-//							// TODO Auto-generated catch block
-//							e1.printStackTrace();
-//						}
-//						
-//					}
-//					
-//					@Override
-//					public void componentAdded(ContainerEvent e) {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//				});
                 btnStart = new JButton("Start");
                 btnStart.setBounds(303, 29, 117, 29);
                 frame.getContentPane().add(btnStart);
@@ -251,6 +238,7 @@ public class MainInterface {
                                         }
                                         tableMan.setModel(modelo);
                                         
+                                        lerRules("./rules.cf");
                                         gerarValores();
                                         modeloAut.addColumn("Rules");
                                         modeloAut.addColumn("Pesos");
@@ -261,8 +249,8 @@ public class MainInterface {
                                                     modeloAut.addRow(new String[] { rulesList.get(i).getName(),
                                                                     String.valueOf(rulesList.get(i).getPeso()) });
                                             }
-                                    }
-                                    tableAut.setModel(modeloAut);
+                                        }
+                                        tableAut.setModel(modeloAut);
                                         
                                 }
                                 // if (checkBoxHam.isSelected()) {
@@ -373,7 +361,7 @@ public class MainInterface {
                                         email.addRule(ruleName);
                                 //      System.out.println("Entrou aqui (Regras)- " + ruleName);
                                 }
-                                System.out.println("Nome email:" + emailName);
+//                                System.out.println("Nome email:" + emailName);
                                 hamList.add(email);
                         }
                 } catch (FileNotFoundException e) {
@@ -387,7 +375,6 @@ public class MainInterface {
                         Random random = new Random();
                         double n = -5.0 + (6) * random.nextDouble();
                         rulesList.get(i).setPeso(n);
-                        // FALTA AQUI FUNÇÃO PARA ADICIONAR O N AO FICHEIRO RULES
                         writeFile("./rules.cf");
 
                 }
@@ -418,8 +405,8 @@ public class MainInterface {
         		String b = (String) String.valueOf(table.getValueAt(r, 1));
         		
         		Rule a = new Rule(s, Double.parseDouble(b));
-        		System.out.println("Nome " + a.getName());
-        		System.out.println("Valor " + a.getPeso());
+//        		System.out.println("Nome " + a.getName());
+//        		System.out.println("Valor " + a.getPeso());
         		list.add(a);
 //        		gravar(s, b, "./gravarPesos.txt");
 				
