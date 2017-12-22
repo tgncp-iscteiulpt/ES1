@@ -102,7 +102,12 @@ public class MainInterface {
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
 
-                                // gravarFicheiro(file);
+                               gravar();
+                               
+                        }
+                        
+                        public void gravar(){
+                        	
                         }
                 });
 
