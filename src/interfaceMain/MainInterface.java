@@ -132,8 +132,8 @@ public class MainInterface {
 
 					}
 				}
-
 			}
+			
 		});
 
 		JButton btnEditar = new JButton("Editar");
