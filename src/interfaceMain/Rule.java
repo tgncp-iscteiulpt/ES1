@@ -28,6 +28,10 @@ public class Rule {
 		this.peso = peso;
 	}
 	
+	@Override
+	public String toString() {
+		return getName() + "	" + getPeso();
+	}
 	
 
 }

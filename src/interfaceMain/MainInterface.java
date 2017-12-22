@@ -104,7 +104,12 @@ public class MainInterface {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
-                               savePeso(modelo, rulesList);
+                               try {
+								savePeso(modelo, rulesList);
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
                                
                         }
                         
@@ -203,20 +208,25 @@ public class MainInterface {
                 checkBoxSpam.setBounds(200, 30, 99, 23);
                 frame.getContentPane().add(checkBoxSpam);
 
-                tableMan.addContainerListener(new ContainerListener() {
-					
-					@Override
-					public void componentRemoved(ContainerEvent e) {
-						savePeso(modelo, rulesList);
-						
-					}
-					
-					@Override
-					public void componentAdded(ContainerEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
+//                tableMan.addContainerListener(new ContainerListener() {
+//					
+//					@Override
+//					public void componentRemoved(ContainerEvent e) {
+//						try {
+//							savePeso(modelo, rulesList);
+//						} catch (IOException e1) {
+//							// TODO Auto-generated catch block
+//							e1.printStackTrace();
+//						}
+//						
+//					}
+//					
+//					@Override
+//					public void componentAdded(ContainerEvent e) {
+//						// TODO Auto-generated method stub
+//						
+//					}
+//				});
                 btnStart = new JButton("Start");
                 btnStart.setBounds(303, 29, 117, 29);
                 frame.getContentPane().add(btnStart);
@@ -226,7 +236,7 @@ public class MainInterface {
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
                                 if (checkBoxRules.isSelected()) {
-                                        lerRules("./rules.cf");
+                                        lerRules("./gravarPesos.txt");
                                         //gerarValores();
                                         
                                         modelo.addColumn("Rules");
@@ -299,10 +309,15 @@ public class MainInterface {
                 try {
                         Scanner scan = new Scanner(new File(file));
                         while (scan.hasNextLine()) {
-                                contador++;
-                                Rule rule = new Rule(scan.next(), 0.0);
-                                scan.nextLine();
-                                rulesList.add(rule);
+                        	
+                        	String line = scan.nextLine();
+                            String[] name = line.split("	");
+                            Rule rule = new Rule(name[0], Double.parseDouble(name[1]));
+                            rulesList.add(rule);
+//                                contador++;
+//                                Rule rule = new Rule(scan.next(), 0.0);
+//                                scan.nextLine();
+//                                rulesList.add(rule);
                         }
                 } catch (FileNotFoundException e) {
                         // TODO Auto-generated catch block
@@ -316,7 +331,7 @@ public class MainInterface {
                         while (scan.hasNextLine()) {
                                 ArrayList<Rule> emailRules = new ArrayList<Rule>();
                                 String line = scan.nextLine();
-                                String[] name = line.split("    ");
+                                String[] name = line.split("	");
                                 String emailName = name[0];
                                 String ruleName = "";
                                 Email email = new Email(emailName);
@@ -349,7 +364,7 @@ public class MainInterface {
                         while (scan.hasNextLine()) {
                                 ArrayList<Rule> emailRules = new ArrayList<Rule>();
                                 String line = scan.nextLine();
-                                String[] name = line.split("    ");
+                                String[] name = line.split("	");
                                 String emailName = name[0];
                                 String ruleName = "";
                                 Email email = new Email(emailName);
@@ -366,71 +381,6 @@ public class MainInterface {
                         e.printStackTrace();
                 }
         }
-
-        // public void lerFicheiro(String file) {
-        // try {
-        // Scanner scan = new Scanner(new File(file));
-        // if (file.equals("./rules.cf")) {
-        // while (scan.hasNextLine()) {
-        // contador++;
-        // Rule rule = new Rule(scan.next(), 0.0);
-        // scan.nextLine();
-        // rulesList.add(rule);
-        // }
-        // } else if (file.equals("./ham.log")) {
-        // while (scan.hasNextLine()) {
-        // String line = scan.nextLine();
-        // String[] name = line.split(" ");
-        // String emailName = "";
-        // String ruleName = "";
-        // ArrayList<Rule> emailRules = new ArrayList<Rule>();
-        // for (int i = 0; i < name.length; i++) {
-        // if (i == 0) {
-        // emailName = name[0];
-        //
-        // } else {
-        // ruleName = name[i];
-        // }
-        // }
-        //
-        // Rule rule = new Rule(ruleName, 0.0);
-        // emailRules.add(rule);
-        // for (Rule rule1 : emailRules) {
-        // System.out.println(rule1.getName());
-        // }
-        // Email email = new Email(emailName, emailRules);
-        // hamList.add(email);
-        // }
-        // } else if (file.equals("./spam.log")) {
-        // while (scan.hasNextLine()) {
-        // String line = scan.nextLine();
-        // // scan.useDelimiter("");
-        // String[] name = line.split(" ");
-        // String emailName = "";
-        // String ruleName = "";
-        // ArrayList<Rule> emailRules = new ArrayList<Rule>();
-        // for (int i = 0; i < name.length; i++) {
-        // if (i == 0) {
-        // emailName = name[0];
-        // } else {
-        // ruleName = name[i];
-        // }
-        // }
-        // Rule rule = new Rule(ruleName, 0.0);
-        // emailRules.add(rule);
-        // Email email = new Email(emailName, emailRules);
-        // spamList.add(email);
-        // }
-        // }
-        // scan.close();
-        // // for (Email email : hamList) {
-        // // System.out.println(email.getName());
-        // // }
-        // } catch (FileNotFoundException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // }
 
         public void gerarValores() {
                 for (int i = 0; i < contador; i++) {
@@ -449,7 +399,7 @@ public class MainInterface {
                 try {
                         write = new PrintWriter(new File(file));
                         for (int i = 0; i < rulesList.size(); i++) {
-                                write.print(rulesList.get(i).getName() + "      " + rulesList.get(i).getPeso() + "\n");
+                                write.print(rulesList.get(i).getName() + "	" + rulesList.get(i).getPeso() + "\n");
                         }
                         write.close();
                 } catch (FileNotFoundException e) {
@@ -458,8 +408,11 @@ public class MainInterface {
                 }
         }
 
-        public void savePeso(TableModel table, ArrayList<Rule> list) {
+        public void savePeso(TableModel table, ArrayList<Rule> list) throws IOException {
         	list.clear();
+        	FileWriter fwriter;
+        	BufferedWriter bwriter = new BufferedWriter(new FileWriter("./gravarPesos.txt"));
+        	
         	for(int r = 0; r < table.getRowCount(); r++) {
         		String s = (String) table.getValueAt(r, 0);
         		String b = (String) String.valueOf(table.getValueAt(r, 1));
@@ -468,21 +421,22 @@ public class MainInterface {
         		System.out.println("Nome " + a.getName());
         		System.out.println("Valor " + a.getPeso());
         		list.add(a);
-        		gravar(s, b, "./gravarPesos.txt");
+//        		gravar(s, b, "./gravarPesos.txt");
+				
+        		try {
+					bwriter.append(s + "	" + b + "\n");
+					bwriter.flush();
+					
+				}
+        		catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
         	}
+        	bwriter.close();
         }
         
-        public void gravar(String s, String b, String file) {
-        	FileWriter fwriter;
-			try {
-				fwriter = new FileWriter(file, true);
-				fwriter.append(s + "	" + b + "\n");	
-				fwriter.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-        }
         
         public int getFn() {
                 return fn;
