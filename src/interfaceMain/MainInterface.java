@@ -277,7 +277,7 @@ public class MainInterface {
 /**
  * 
  * @param email
- * @return Classificação do mail
+ * @return Classificaï¿½ï¿½o do mail
  */
         public double avaliarEmail(Email email) {
                 double pesoEmail = 0.0;
@@ -379,7 +379,7 @@ public class MainInterface {
                 }
         }
 /**
- * Gerar valores aleatórios para configuração automática
+ * Gerar valores aleatï¿½rios para configuraï¿½ï¿½o automï¿½tica
  */
         public void gerarValores() {
                 for (int i = 0; i < contador; i++) {
