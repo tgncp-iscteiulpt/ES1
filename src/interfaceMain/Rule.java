@@ -1,10 +1,24 @@
 package interfaceMain;
 
+/**
+ * 
+ * @author franciscopicao
+ * @author tomascostapedro
+ * @author andrerouiller
+ *
+ */
+
 public class Rule {
 	
 	private double peso;
 	private String name;
-	
+/**
+ * 	
+ * @param name
+ * @param peso
+ * 
+ * Construtor de regra
+ */
 	public Rule(String name, double peso) {
 		// TODO Auto-generated constructor stub
 		this.name = name;

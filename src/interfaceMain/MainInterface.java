@@ -27,6 +27,13 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+/**
+ * 
+ * @author tomascostapedro
+ * @author andrerouiller
+ * 
+ */
+
 public class MainInterface {
 
         private JFrame frame;
@@ -267,7 +274,11 @@ public class MainInterface {
                         }
                 });
         }
-
+/**
+ * 
+ * @param email
+ * @return Classificação do mail
+ */
         public double avaliarEmail(Email email) {
                 double pesoEmail = 0.0;
                 for (Rule rule : email.getRulesList()) {
@@ -279,7 +290,12 @@ public class MainInterface {
                 }
                 return pesoEmail;
         }
-
+/**
+ * 
+ * @param file
+ * 
+ * Scanner regras
+ */
         public void lerRules(String file) {
                 try {
                         Scanner scan = new Scanner(new File(file));
@@ -295,7 +311,12 @@ public class MainInterface {
                         e.printStackTrace();
                 }
         }
-
+/**
+ * 
+ * @param file
+ * 
+ * Scanner ham
+ */
         public void lerHam(String file) {
                 try {
                         Scanner scan = new Scanner(new File(file));
@@ -328,7 +349,12 @@ public class MainInterface {
                         e.printStackTrace();
                 }
         }
-
+/**
+ * 
+ * @param file
+ * 
+ * Scanner spam
+ */
         public void lerSpam(String file) {
                 try {
                         Scanner scan = new Scanner(new File(file));
@@ -352,7 +378,9 @@ public class MainInterface {
                         e.printStackTrace();
                 }
         }
-
+/**
+ * Gerar valores aleatórios para configuração automática
+ */
         public void gerarValores() {
                 for (int i = 0; i < contador; i++) {
                         Random random = new Random();
@@ -363,7 +391,12 @@ public class MainInterface {
 
                 }
         }
-
+/**
+ * 
+ * @param file
+ * 
+ * Escrever ficheiro para guardar valor das regras
+ */
         private void writeFile(String file) {
                 // TODO Auto-generated method stub
                 PrintWriter write;
@@ -378,7 +411,14 @@ public class MainInterface {
                         e.printStackTrace();
                 }
         }
-
+/**
+ * 
+ * @param table
+ * @param list
+ * @throws IOException
+ * 
+ * Guardar pesos configurados manualmente
+ */
         public void savePeso(TableModel table, ArrayList<Rule> list) throws IOException {
                 list.clear();
                 FileWriter fwriter;

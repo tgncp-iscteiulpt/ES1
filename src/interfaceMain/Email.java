@@ -2,6 +2,14 @@ package interfaceMain;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author nunocamilo
+ * @author andrerouiller
+ * @author tomascostapedro
+ *
+ */
+
 public class Email {
 	
 	private String name;
@@ -22,7 +30,10 @@ public class Email {
 		Rule rule = new Rule(ruleName, 0.0);
 		rulesList.add(rule);
 	}
-	
+/**
+ * 	
+ * @return Lista de rules de cada mail
+ */
 	public ArrayList<Rule> getRulesList() {
 		return rulesList;
 	}
