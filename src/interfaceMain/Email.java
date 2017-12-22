@@ -6,6 +6,7 @@ public class Email {
 	
 	private String name;
 	private ArrayList<Rule> rulesList;
+	private String tipo;
 
 	public Email(String name) {
 		// TODO Auto-generated constructor stub
@@ -32,6 +33,14 @@ public class Email {
 			pesoMail = pesoMail + rule.getPeso();
 		}
 		return pesoMail;
+	}
+	
+	public String getTipo() {
+		return tipo;
+	}
+	
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 	
 	
