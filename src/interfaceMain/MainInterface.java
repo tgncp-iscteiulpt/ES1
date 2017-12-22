@@ -262,7 +262,8 @@ public class MainInterface {
 			if (file.equals("./rules.cf")) {
 				while (scan.hasNextLine()) {
 					contador++;
-					Rule rule = new Rule(scan.nextLine(), 0.0);
+					Rule rule = new Rule(scan.next(), 0.0);
+					scan.nextLine();
 					rulesList.add(rule);
 				}
 			} else if (file.equals("./ham.log")) {
