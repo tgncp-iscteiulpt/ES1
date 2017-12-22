@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="interfaceMain.MainInterface" x="228" y="103">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="interfaceMain.Email"
+            endpointName="hamList" kind="Simple"/>
+        <Association destinationClassName="interfaceMain.Rule"
+            endpointName="rulesList" kind="Simple"/>
+        <Association destinationClassName="interfaceMain.Email"
+            endpointName="spamList" kind="Simple"/>
+        <Communication destinationClassName="interfaceMain.Rule"/>
+        <Communication destinationClassName="interfaceMain.Email"/>
+    </Class>
+    <Class name="interfaceMain.Rule" x="365" y="466">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="interfaceMain.Email" x="650" y="187">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="interfaceMain.Rule"
+            endpointName="rulesList" kind="Simple"/>
+        <Communication destinationClassName="interfaceMain.Rule"/>
+    </Class>
+</ClassDiagram>
