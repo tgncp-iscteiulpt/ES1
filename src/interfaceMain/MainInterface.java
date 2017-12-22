@@ -84,7 +84,6 @@ public class MainInterface {
                 JProgressBar progressBarFNM = new JProgressBar();
                 progressBarFNM.setBounds(514, 539, 146, 20);
                 frame.getContentPane().add(progressBarFNM);
-                // progressBarFNM.
 
                 JProgressBar progressBarFPM = new JProgressBar();
                 progressBarFPM.setBounds(514, 559, 146, 20);
@@ -97,6 +96,25 @@ public class MainInterface {
                 JLabel labelFpm = new JLabel("FP");
                 labelFpm.setBounds(490, 559, 61, 20);
                 frame.getContentPane().add(labelFpm);
+                
+                // Automático
+
+                JProgressBar progressBarFNA = new JProgressBar();
+                progressBarFNA.setBounds(142, 539, 146, 20);
+                frame.getContentPane().add(progressBarFNA);
+
+                JProgressBar progressBarFPA = new JProgressBar();
+                progressBarFPA.setBounds(142, 559, 146, 20);
+                frame.getContentPane().add(progressBarFPA);
+
+                JLabel labelFna = new JLabel("FN");
+                labelFna.setBounds(114, 539, 61, 20);
+                frame.getContentPane().add(labelFna);
+
+                JLabel labelFpa = new JLabel("FP");
+                labelFpa.setBounds(114, 559, 61, 20);
+                frame.getContentPane().add(labelFpa);
+                
 
                 JButton btnGravar = new JButton("Gravar");
                 btnGravar.setBounds(413, 591, 117, 29);
@@ -131,6 +149,12 @@ public class MainInterface {
                                 progressBarFPM.setMinimum(0);
                                 progressBarFNM.setMaximum(695);
                                 progressBarFPM.setMaximum(239);
+                                
+                                progressBarFNA.setMinimum(0);
+                                progressBarFPA.setMinimum(0);
+                                progressBarFNA.setMaximum(695);
+                                progressBarFPA.setMaximum(239);
+                                
                                 if (checkBoxHam.isSelected()) {
                                         fn= 0;
                                         for (Email email : hamList) {
@@ -139,6 +163,9 @@ public class MainInterface {
                                                         fn++;
                                                         progressBarFNM.setValue(fn);
                                                         progressBarFNM.setStringPainted(true);
+                                                        
+                                                        progressBarFNA.setValue(fn);
+                                                        progressBarFNA.setStringPainted(true);
 
                                                 }
                                         }
@@ -151,6 +178,9 @@ public class MainInterface {
                                                         fp++;
                                                         progressBarFPM.setValue(fp);
                                                         progressBarFPM.setStringPainted(true);
+                                                        
+                                                        progressBarFNA.setValue(fp);
+                                                        progressBarFNA.setStringPainted(true);
 
                                                 }
                                         }
@@ -176,23 +206,6 @@ public class MainInterface {
 
                 scrollPaneMan.setViewportView(tableMan);
 
-                // Automático
-
-                JProgressBar progressBarFNA = new JProgressBar();
-                progressBarFNA.setBounds(142, 539, 146, 20);
-                frame.getContentPane().add(progressBarFNA);
-
-                JProgressBar progressBarFPA = new JProgressBar();
-                progressBarFPA.setBounds(142, 559, 146, 20);
-                frame.getContentPane().add(progressBarFPA);
-
-                JLabel labelFna = new JLabel("FN");
-                labelFna.setBounds(114, 539, 61, 20);
-                frame.getContentPane().add(labelFna);
-
-                JLabel labelFpa = new JLabel("FP");
-                labelFpa.setBounds(114, 559, 61, 20);
-                frame.getContentPane().add(labelFpa);
 
                 JScrollPane scrollPaneAut = new JScrollPane();
                 scrollPaneAut.setBounds(32, 82, 345, 445);
